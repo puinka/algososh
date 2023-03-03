@@ -9,7 +9,7 @@ import { Column } from "../ui/column/column";
 import { TElement } from "../../types/types";
 import { ElementStates } from "../../types/element-states";
 import { delay, swap } from "../../common/utils";
-import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 const MIN_LENGTH = 3;
 const MAX_LENGTH = 17;
@@ -23,6 +23,8 @@ const generateRandom = (min: number, max: number): number => {
 export const SortingPage: React.FC = () => {
   const [isBubble, setIsBubble] = useState(false);
   const [elements, setElements] = useState<TElement[]>([]);
+  const [isLoadingAsc, setIsLoadingAsc] = useState<boolean>(false);
+  const [isLoadingDsc, setIsLoadingDsc] = useState<boolean>(false);
 
   const generateArray = (): void => {
     const length = generateRandom(MIN_LENGTH, MAX_LENGTH);
@@ -39,7 +41,7 @@ export const SortingPage: React.FC = () => {
     await delay(SHORT_DELAY_IN_MS);
   };
 
-  const selectionSorting = async (arr: TElement[]) => {
+  const selectionSorting = async (arr: TElement[], direction: Direction) => {
     for (let i = 0; i < arr.length - 1; i++) {
       let swapInd = i;
       arr[swapInd].state = ElementStates.Changing;
@@ -48,7 +50,11 @@ export const SortingPage: React.FC = () => {
         arr[j].state = ElementStates.Changing;
         await renderStep(arr);
 
-        if (arr[swapInd].value > arr[j].value) {
+        if (
+          direction === Direction.Ascending
+            ? arr[swapInd].value > arr[j].value
+            : arr[swapInd].value < arr[j].value
+        ) {
           swapInd = j;
           arr[swapInd].state =
             i === swapInd ? ElementStates.Changing : ElementStates.Default;
@@ -70,10 +76,53 @@ export const SortingPage: React.FC = () => {
     await renderStep(arr);
   };
 
+  const bubbleSorting = async (arr: TElement[], direction: Direction) => {
+    for (let i = 0; i < arr.length - 1; i++) {
+      for (let j = 0; j < arr.length - i - 1; j++) {
+        arr[j].state = ElementStates.Changing;
+        arr[j + 1].state = ElementStates.Changing;
+
+        await renderStep(arr);
+
+        if (
+          direction === Direction.Ascending
+            ? arr[j].value > arr[j + 1].value
+            : arr[j].value < arr[j + 1].value
+        ) {
+          swap(arr, j, j + 1);
+          await renderStep(arr);
+        }
+        arr[j].state = ElementStates.Default;
+        arr[j + 1].state = ElementStates.Default;
+
+        if (j === arr.length - i - 2) {
+          arr[j + 1].state = ElementStates.Modified;
+        }
+      }
+    }
+    arr.forEach((item) => (item.state = ElementStates.Modified));
+    await renderStep(arr);
+  };
+
   const handleAscendingSort = async (): Promise<void> => {
-    //lock buttons & loaders
-    await selectionSorting(elements);
-    //unlock the buttons
+    setIsLoadingAsc(true);
+    if (isBubble) {
+      await bubbleSorting(elements, Direction.Ascending);
+    } else {
+      await selectionSorting(elements, Direction.Ascending);
+    }
+
+    setIsLoadingAsc(false);
+  };
+
+  const handleDescendingSort = async (): Promise<void> => {
+    setIsLoadingDsc(true);
+    if (isBubble) {
+      await bubbleSorting(elements, Direction.Descending);
+    } else {
+      await selectionSorting(elements, Direction.Descending);
+    }
+    setIsLoadingDsc(false);
   };
 
   return (
@@ -105,15 +154,25 @@ export const SortingPage: React.FC = () => {
               sorting={Direction.Ascending}
               type={"button"}
               onClick={handleAscendingSort}
+              isLoader={isLoadingAsc}
+              disabled={isLoadingDsc || elements.length < 1}
             />
             <Button
               text="По убыванию"
               sorting={Direction.Descending}
               type={"button"}
+              onClick={handleDescendingSort}
+              isLoader={isLoadingDsc}
+              disabled={isLoadingAsc || elements.length < 1}
             />
           </div>
         </form>
-        <Button text="Новый массив" type="button" onClick={generateArray} />
+        <Button
+          text="Новый массив"
+          type="button"
+          onClick={generateArray}
+          disabled={isLoadingAsc || isLoadingDsc}
+        />
       </div>
       <ul className={style.arrayContainer}>
         {elements &&
