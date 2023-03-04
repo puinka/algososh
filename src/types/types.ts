@@ -4,6 +4,7 @@ export type TLetter = {
   char?: string;
   state: ElementStates;
   head?: string | null;
+  tail?: string | null;
 };
 
 export type TElement = {
