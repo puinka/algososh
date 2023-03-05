@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { delay } from "../../common/utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
@@ -10,13 +10,13 @@ import { SolutionLayout } from "../ui/solution-layout/solution-layout";
 import style from "./stack.module.css";
 import { Stack } from "./utils";
 
-const stack = new Stack<string>();
-
 export const StackPage: React.FC = () => {
   const [stringInput, setStringInput] = useState<string>("");
   const [elements, setElements] = useState<TLetter[]>([]);
   const [isPushing, setIsPushing] = useState<boolean>(false);
   const [isPopping, setIsPopping] = useState<boolean>(false);
+
+  const stack = useMemo(() => new Stack<string>(), []);
 
   const renderStep = async () => {
     await delay(SHORT_DELAY_IN_MS);
