@@ -8,17 +8,13 @@ import style from "./sorting.module.css";
 import { Column } from "../ui/column/column";
 import { TElement } from "../../types/types";
 import { ElementStates } from "../../types/element-states";
-import { delay, swap } from "../../common/utils";
+import { delay, randomNumber, swap } from "../../common/utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 const MIN_LENGTH = 3;
 const MAX_LENGTH = 17;
 const MIN_VALUE = 0;
 const MAX_VALUE = 100;
-
-const generateRandom = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
 
 export const SortingPage: React.FC = () => {
   const [isBubble, setIsBubble] = useState(false);
@@ -27,10 +23,10 @@ export const SortingPage: React.FC = () => {
   const [isLoadingDsc, setIsLoadingDsc] = useState<boolean>(false);
 
   const generateArray = (): void => {
-    const length = generateRandom(MIN_LENGTH, MAX_LENGTH);
+    const length = randomNumber(MIN_LENGTH, MAX_LENGTH);
     const arr: TElement[] = [];
     for (let i = 0; i <= length; i++) {
-      const value = generateRandom(MIN_VALUE, MAX_VALUE);
+      const value = randomNumber(MIN_VALUE, MAX_VALUE);
       arr.push({ value: value, state: ElementStates.Default });
     }
     return setElements(arr);
