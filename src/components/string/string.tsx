@@ -4,13 +4,13 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import style from "./string.module.css";
-import { delay } from "../../common/utils";
+import { delay, renderStep } from "../../common/utils";
 import { TLetter } from "../../types/types";
 import { ElementStates } from "../../types/element-states";
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 export const StringComponent: React.FC = () => {
-  const maxLength = 11;
+  const MAX_LENGTH = 11;
 
   const [stringInput, setStringInput] = useState<string>("");
   const [letters, setLetters] = useState<TLetter[]>([]);
@@ -49,28 +49,28 @@ export const StringComponent: React.FC = () => {
     ];
   };
 
-  const renderStep = async (arr: TLetter[]): Promise<void> => {
-    setLetters([...arr]);
-    await delay(DELAY_IN_MS);
-  };
+  // const renderStep = async (arr: TLetter[]): Promise<void> => {
+  //   setLetters([...arr]);
+  //   await delay(DELAY_IN_MS);
+  // };
 
   const renderSorting = async (str: string) => {
     const arr = convertStringToLetters(str);
-    await renderStep(arr);
+    await renderStep(arr, DELAY_IN_MS, setLetters);
 
     const mid = Math.floor(arr.length / 2);
     for (let i = 0; i < mid; i++) {
       arr[i].state = ElementStates.Changing;
       arr[arr.length - i - 1].state = ElementStates.Changing;
 
-      await renderStep(arr);
+      await renderStep(arr, DELAY_IN_MS, setLetters);
 
       swap(arr, i);
 
       arr[i].state = ElementStates.Modified;
       arr[arr.length - i - 1].state = ElementStates.Modified;
 
-      await renderStep(arr);
+      await renderStep(arr, DELAY_IN_MS, setLetters);
     }
     if (arr.length % 2 !== 0) {
       arr[mid].state = ElementStates.Modified;
@@ -82,7 +82,7 @@ export const StringComponent: React.FC = () => {
     <SolutionLayout title="Строка">
       <form className={style.inputsContainer} onSubmit={handleReverseClick}>
         <Input
-          maxLength={maxLength}
+          maxLength={MAX_LENGTH}
           isLimitText
           value={stringInput}
           onChange={handleInputChange}

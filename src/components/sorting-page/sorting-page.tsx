@@ -8,7 +8,7 @@ import style from "./sorting.module.css";
 import { Column } from "../ui/column/column";
 import { TElement } from "../../types/types";
 import { ElementStates } from "../../types/element-states";
-import { delay, randomNumber, swap } from "../../common/utils";
+import { delay, randomNumber, renderStep, swap } from "../../common/utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 
 const MIN_LENGTH = 3;
@@ -32,11 +32,6 @@ export const SortingPage: React.FC = () => {
     return setElements(arr);
   };
 
-  const renderStep = async (arr: TElement[]): Promise<void> => {
-    setElements([...arr]);
-    await delay(SHORT_DELAY_IN_MS);
-  };
-
   const selectionSorting = async (arr: TElement[], direction: Direction) => {
     for (let i = 0; i < arr.length - 1; i++) {
       let swapInd = i;
@@ -44,7 +39,7 @@ export const SortingPage: React.FC = () => {
 
       for (let j = i + 1; j < arr.length; j++) {
         arr[j].state = ElementStates.Changing;
-        await renderStep(arr);
+        await renderStep(arr, SHORT_DELAY_IN_MS, setElements);
 
         if (
           direction === Direction.Ascending
@@ -69,7 +64,7 @@ export const SortingPage: React.FC = () => {
       }
     }
     arr.forEach((item) => (item.state = ElementStates.Modified));
-    await renderStep(arr);
+    await renderStep(arr, SHORT_DELAY_IN_MS, setElements);
   };
 
   const bubbleSorting = async (arr: TElement[], direction: Direction) => {
@@ -78,7 +73,7 @@ export const SortingPage: React.FC = () => {
         arr[j].state = ElementStates.Changing;
         arr[j + 1].state = ElementStates.Changing;
 
-        await renderStep(arr);
+        await renderStep(arr, SHORT_DELAY_IN_MS, setElements);
 
         if (
           direction === Direction.Ascending
@@ -86,7 +81,7 @@ export const SortingPage: React.FC = () => {
             : arr[j].value < arr[j + 1].value
         ) {
           swap(arr, j, j + 1);
-          await renderStep(arr);
+          await renderStep(arr, SHORT_DELAY_IN_MS, setElements);
         }
         arr[j].state = ElementStates.Default;
         arr[j + 1].state = ElementStates.Default;
@@ -97,7 +92,7 @@ export const SortingPage: React.FC = () => {
       }
     }
     arr.forEach((item) => (item.state = ElementStates.Modified));
-    await renderStep(arr);
+    await renderStep(arr, SHORT_DELAY_IN_MS, setElements);
   };
 
   const handleAscendingSort = async (): Promise<void> => {

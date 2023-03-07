@@ -1,5 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { delay, randomCharacter, randomNumber } from "../../common/utils";
+import {
+  delay,
+  randomCharacter,
+  randomNumber,
+  renderStep,
+} from "../../common/utils";
 import { ElementStates } from "../../types/element-states";
 import { TButtonStates, TLetter } from "../../types/types";
 import { Button } from "../ui/button/button";
@@ -47,10 +52,10 @@ export const ListPage: React.FC = () => {
     );
   }, []);
 
-  const renderStep = async () => {
-    setElements([...elements]);
-    await delay(SHORT_DELAY_IN_MS);
-  };
+  // const renderStep = async () => {
+  //   setElements([...elements]);
+  //   await delay(SHORT_DELAY_IN_MS);
+  // };
 
   const handleValueInputChange = (
     evt: React.FormEvent<HTMLInputElement>
@@ -83,7 +88,7 @@ export const ListPage: React.FC = () => {
       isAdding: true,
     };
 
-    await renderStep();
+    await renderStep(elements, SHORT_DELAY_IN_MS, setElements);
 
     elements[0] = {
       ...elements[0],
@@ -91,7 +96,7 @@ export const ListPage: React.FC = () => {
     };
     elements.unshift({ char: valueInput, state: ElementStates.Modified });
 
-    await renderStep();
+    await renderStep(elements, SHORT_DELAY_IN_MS, setElements);
 
     elements[0].state = ElementStates.Default;
 
@@ -120,7 +125,7 @@ export const ListPage: React.FC = () => {
       isAdding: true,
     };
 
-    await renderStep();
+    await renderStep(elements, SHORT_DELAY_IN_MS, setElements);
 
     elements[i] = {
       ...elements[i],
@@ -128,7 +133,7 @@ export const ListPage: React.FC = () => {
     };
     elements.push({ char: valueInput, state: ElementStates.Modified });
 
-    await renderStep();
+    await renderStep(elements, SHORT_DELAY_IN_MS, setElements);
 
     elements[i + 1].state = ElementStates.Default;
 
@@ -155,11 +160,11 @@ export const ListPage: React.FC = () => {
       isDeleting: true,
     };
 
-    await renderStep();
+    await renderStep(elements, SHORT_DELAY_IN_MS, setElements);
     linkedList.deleteByIndex(0);
     elements.shift();
 
-    await renderStep();
+    await renderStep(elements, SHORT_DELAY_IN_MS, setElements);
 
     setButtonStates({
       ...buttonStates,
@@ -183,7 +188,7 @@ export const ListPage: React.FC = () => {
       isDeleting: true,
     };
 
-    await renderStep();
+    await renderStep(elements, SHORT_DELAY_IN_MS, setElements);
     linkedList.deleteByIndex(i);
     elements.pop();
 
@@ -222,7 +227,7 @@ export const ListPage: React.FC = () => {
           };
         }
 
-        await renderStep();
+        await renderStep(elements, SHORT_DELAY_IN_MS, setElements);
       }
       elements[indexInput] = {
         ...elements[indexInput],
@@ -233,11 +238,11 @@ export const ListPage: React.FC = () => {
         char: valueInput,
         state: ElementStates.Modified,
       });
-      await renderStep();
+      await renderStep(elements, SHORT_DELAY_IN_MS, setElements);
     }
 
     elements.forEach((item) => (item.state = ElementStates.Default));
-    await renderStep();
+    await renderStep(elements, SHORT_DELAY_IN_MS, setElements);
 
     setButtonStates({
       ...buttonStates,
@@ -264,7 +269,7 @@ export const ListPage: React.FC = () => {
           ...elements[i],
           state: ElementStates.Changing,
         };
-        await renderStep();
+        await renderStep(elements, SHORT_DELAY_IN_MS, setElements);
       }
 
       elements[indexInput] = {
@@ -278,7 +283,7 @@ export const ListPage: React.FC = () => {
         },
       };
 
-      await renderStep();
+      await renderStep(elements, SHORT_DELAY_IN_MS, setElements);
 
       elements.splice(indexInput, 1);
       elements[indexInput - 1] = {
@@ -292,7 +297,7 @@ export const ListPage: React.FC = () => {
         item.state = ElementStates.Default;
       });
     }
-    await renderStep();
+    await renderStep(elements, SHORT_DELAY_IN_MS, setElements);
 
     setButtonStates({
       ...buttonStates,

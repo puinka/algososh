@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { delay } from "../../common/utils";
+import { delay, renderStep } from "../../common/utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
 import { TLetter } from "../../types/types";
@@ -18,11 +18,6 @@ export const StackPage: React.FC = () => {
 
   const stack = useMemo(() => new Stack<string>(), []);
 
-  const renderStep = async () => {
-    await delay(SHORT_DELAY_IN_MS);
-    setElements([...elements]);
-  };
-
   const handleInputChange = (evt: React.FormEvent<HTMLInputElement>): void => {
     setStringInput(evt.currentTarget.value);
   };
@@ -31,8 +26,6 @@ export const StackPage: React.FC = () => {
     evt.preventDefault();
     setStringInput("");
     setIsPushing(true);
-
-    //push
     stack.push(stringInput);
 
     elements.forEach((element) => {
@@ -48,7 +41,7 @@ export const StackPage: React.FC = () => {
     elements[elements.length - 1].head = "top";
     elements[elements.length - 1].state = ElementStates.Changing;
 
-    await renderStep();
+    await renderStep(elements, SHORT_DELAY_IN_MS, setElements);
 
     setIsPushing(false);
   };
