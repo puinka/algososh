@@ -10,11 +10,8 @@ class Node<T> {
 interface ILinkedList<T> {
   prepend: (value: T) => void;
   append: (value: T) => void;
-  //   addByIndex: (value: T, index: number) => void;
-  //   deleteByIndex: (index: number) => void;
-  //   deleteHead: () => void;
-  //   deleteTail: () => void;
-  //   toArray: () => void;
+  addByIndex: (value: T, index: number) => void;
+  deleteByIndex: (index: number) => void;
 }
 
 export class LinkedList<T> implements ILinkedList<T> {
@@ -49,15 +46,6 @@ export class LinkedList<T> implements ILinkedList<T> {
     }
     this.size++;
   };
-
-  //   deleteHead = (): void => {
-  //     if (this.head) {
-  //       this.head = this.head.next;
-  //       this.size--;
-  //     }
-  //   };
-
-  //deleteTail: () => void;
 
   addByIndex = (value: T, index: number): void => {
     if (index < 0 || index > this.size) {

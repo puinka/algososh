@@ -315,12 +315,22 @@ export const ListPage: React.FC = () => {
         <Button
           text="Добавить в head"
           type="submit"
-          disabled={!valueInput || buttonStates.isAddingToTail}
+          disabled={
+            !valueInput ||
+            buttonStates.isAddingToTail ||
+            buttonStates.isAddingByIdex ||
+            buttonStates.isDeletingByIdex
+          }
           isLoader={buttonStates.isAddingToHead}
         />
         <Button
           text="Добавить в tail"
-          disabled={!valueInput || buttonStates.isAddingToHead}
+          disabled={
+            !valueInput ||
+            buttonStates.isAddingToHead ||
+            buttonStates.isAddingByIdex ||
+            buttonStates.isDeletingByIdex
+          }
           onClick={handleAddToTail}
           isLoader={buttonStates.isAddingToTail}
         />
@@ -329,7 +339,9 @@ export const ListPage: React.FC = () => {
           disabled={
             elements.length < 1 ||
             buttonStates.isAddingToHead ||
-            buttonStates.isAddingToTail
+            buttonStates.isAddingToTail ||
+            buttonStates.isAddingByIdex ||
+            buttonStates.isDeletingByIdex
           }
           onClick={handleDeleteFromHead}
         />
@@ -338,7 +350,9 @@ export const ListPage: React.FC = () => {
           disabled={
             elements.length < 1 ||
             buttonStates.isAddingToHead ||
-            buttonStates.isAddingToTail
+            buttonStates.isAddingToTail ||
+            buttonStates.isAddingByIdex ||
+            buttonStates.isDeletingByIdex
           }
           onClick={handleDeleteFromTail}
         />
@@ -352,14 +366,26 @@ export const ListPage: React.FC = () => {
         <Button
           text="Добавить по индексу"
           extraClass={style.indexAdd}
-          disabled={!valueInput || !indexInput}
+          disabled={
+            !valueInput ||
+            !indexInput ||
+            indexInput > elements.length ||
+            buttonStates.isDeletingByIdex
+          }
           onClick={handleAddByIndex}
+          isLoader={buttonStates.isAddingByIdex}
         />
         <Button
           text="Удалить по индексу"
           extraClass={style.indexRemove}
-          disabled={!indexInput}
+          disabled={
+            !indexInput ||
+            elements.length === 0 ||
+            indexInput > elements.length - 1 ||
+            buttonStates.isAddingByIdex
+          }
           onClick={handleDeleteByIndex}
+          isLoader={buttonStates.isDeletingByIdex}
         />
       </form>
       <ul className={style.circlesContainer}>
