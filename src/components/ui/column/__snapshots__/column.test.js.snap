@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render Column component as changing state 1`] = `
+<div
+  className="content "
+>
+  <div
+    className="column changing"
+    style={
+      Object {
+        "height": 1,
+      }
+    }
+  />
+  <p
+    className="text text_type_column text_color_input mt-3"
+  />
+</div>
+`;
+
+exports[`should render Column component as default state 1`] = `
+<div
+  className="content "
+>
+  <div
+    className="column default"
+    style={
+      Object {
+        "height": 1,
+      }
+    }
+  />
+  <p
+    className="text text_type_column text_color_input mt-3"
+  />
+</div>
+`;
+
+exports[`should render Column component as modified state 1`] = `
+<div
+  className="content "
+>
+  <div
+    className="column modified"
+    style={
+      Object {
+        "height": 1,
+      }
+    }
+  />
+  <p
+    className="text text_type_column text_color_input mt-3"
+  />
+</div>
+`;
+
+exports[`should render Column component without props 1`] = `
+<div
+  className="content "
+>
+  <div
+    className="column default"
+    style={
+      Object {
+        "height": 1,
+      }
+    }
+  />
+  <p
+    className="text text_type_column text_color_input mt-3"
+  />
+</div>
+`;
