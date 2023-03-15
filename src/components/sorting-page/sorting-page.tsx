@@ -8,8 +8,9 @@ import style from "./sorting.module.css";
 import { Column } from "../ui/column/column";
 import { TElement } from "../../types/types";
 import { ElementStates } from "../../types/element-states";
-import { delay, randomNumber, renderStep, swap } from "../../common/utils";
+import { randomNumber, renderStep, swap } from "../../common/utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { selectSort } from "./utils";
 
 const MIN_LENGTH = 3;
 const MAX_LENGTH = 17;
@@ -115,6 +116,8 @@ export const SortingPage: React.FC = () => {
     }
     setIsLoadingDsc(false);
   };
+
+  selectSort([5, 8, 1, 2, 6]);
 
   return (
     <SolutionLayout title="Сортировка массива">
