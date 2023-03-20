@@ -59,18 +59,24 @@ export const StringComponent: React.FC = () => {
 
   return (
     <SolutionLayout title="Строка">
-      <form className={style.inputsContainer} onSubmit={handleReverseClick}>
+      <form
+        className={style.inputsContainer}
+        onSubmit={handleReverseClick}
+        test-id="form"
+      >
         <Input
           maxLength={MAX_LENGTH}
           isLimitText
           value={stringInput}
           onChange={handleInputChange}
+          test-id="input"
         />
         <Button
           text="Развернуть"
           type="submit"
           disabled={!stringInput}
           isLoader={isLoader}
+          test-id="submit"
         />
       </form>
       <ul className={style.circlesContainer}>
