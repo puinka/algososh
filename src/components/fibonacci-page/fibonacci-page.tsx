@@ -43,19 +43,25 @@ export const FibonacciPage: React.FC = () => {
 
   return (
     <SolutionLayout title="Последовательность Фибоначчи">
-      <form className={style.inputsContainer} onSubmit={handleCalculateClick}>
+      <form
+        className={style.inputsContainer}
+        onSubmit={handleCalculateClick}
+        test-id="form"
+      >
         <Input
           type="number"
           max={max}
           isLimitText
           onChange={handleInputChange}
           placeholder={"Введите число"}
+          test-id="input"
         />
         <Button
           text="Рассчитать"
           type="submit"
           disabled={!numberInput || numberInput > max || numberInput < 0}
           isLoader={isLoader}
+          test-id="submit"
         />
       </form>
       <ul className={style.circlesContainer}>
