@@ -71,30 +71,34 @@ export const StackPage: React.FC = () => {
   return (
     <SolutionLayout title="Стек">
       <div className={style.inputsContainer}>
-        <form className={style.form} onSubmit={handleAdd}>
+        <form className={style.form} onSubmit={handleAdd} test-id="form">
           <Input
             maxLength={4}
             isLimitText
             onChange={handleInputChange}
             value={stringInput}
+            test-id="input"
           />
           <Button
             text={"Добавить"}
             type="submit"
             isLoader={isPushing}
             disabled={isPopping || stringInput.length < 1}
+            test-id="add-button"
           />
           <Button
             text={"Удалить"}
             onClick={handleRemove}
             isLoader={isPopping}
             disabled={isPushing || elements.length < 1}
+            test-id="remove-button"
           />
         </form>
         <Button
           text={"Очистить"}
-          disabled={isPopping || isPushing}
+          disabled={isPopping || isPushing || elements.length < 1}
           onClick={handleClearAll}
+          test-id="clear-button"
         />
       </div>
       <ul className={style.circlesContainer}>
