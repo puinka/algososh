@@ -46,55 +46,55 @@ describe("String component functions properly", () => {
 
     cy.get("[test-id='circle']").each(($circle, index) => {
       cy.get($circle).contains(testData[0].testString[index]);
-      cy.get($circle)
-        .invoke("attr", "class")
-        .then((classList) =>
-          expect(classList).contains(testData[0].testStates[index])
-        );
+      cy.get($circle).should(
+        "have.css",
+        "border-color",
+        testData[0].testStates[index]
+      );
     });
 
     cy.wait(DELAY_IN_MS);
 
     cy.get("[test-id='circle']").each(($circle, index) => {
       cy.get($circle).contains(testData[1].testString[index]);
-      cy.get($circle)
-        .invoke("attr", "class")
-        .then((classList) =>
-          expect(classList).contains(testData[1].testStates[index])
-        );
+      cy.get($circle).should(
+        "have.css",
+        "border-color",
+        testData[1].testStates[index]
+      );
     });
 
     cy.wait(DELAY_IN_MS);
 
     cy.get("[test-id='circle']").each(($circle, index) => {
       cy.get($circle).contains(testData[2].testString[index]);
-      cy.get($circle)
-        .invoke("attr", "class")
-        .then((classList) =>
-          expect(classList).contains(testData[2].testStates[index])
-        );
+      cy.get($circle).should(
+        "have.css",
+        "border-color",
+        testData[2].testStates[index]
+      );
     });
 
     cy.wait(DELAY_IN_MS);
 
     cy.get("[test-id='circle']").each(($circle, index) => {
       cy.get($circle).contains(testData[3].testString[index]);
-      cy.get($circle)
-        .invoke("attr", "class")
-        .then((classList) =>
-          expect(classList).contains(testData[3].testStates[index])
-        );
+      cy.get($circle).should(
+        "have.css",
+        "border-color",
+        testData[3].testStates[index]
+      );
     });
 
     cy.wait(DELAY_IN_MS);
 
     cy.get("[test-id='circle']").each(($circle, index) => {
       cy.get($circle).contains(testData[4].testString[index]);
-      cy.get($circle)
-        .invoke("attr", "class")
-        .then((classList) =>
-          expect(classList).contains(testData[4].testStates[index])
-        );
+      cy.get($circle).should(
+        "have.css",
+        "border-color",
+        testData[4].testStates[index]
+      );
     });
   });
 
