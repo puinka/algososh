@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { delay } from "../../common/utils";
 import { SHORT_DELAY_IN_MS } from "../../constants/delays";
 import { ElementStates } from "../../types/element-states";
@@ -24,6 +24,11 @@ export const QueuePage: React.FC = () => {
   const [elements, setElements] = useState<TLetter[]>(initialElements);
   const [isPushing, setIsPushing] = useState<boolean>(false);
   const [isPopping, setIsPopping] = useState<boolean>(false);
+  const [isEmpty, setIsEmpty] = useState<boolean>(true);
+
+  useEffect(() => {
+    setIsEmpty(elements.every((element) => element.char === ""));
+  });
 
   const handleInputChange = (evt: React.FormEvent<HTMLInputElement>): void => {
     setStringInput(evt.currentTarget.value);
@@ -58,6 +63,7 @@ export const QueuePage: React.FC = () => {
 
   const handleRemove = async () => {
     setIsPopping(true);
+    setStringInput("");
 
     let head = queue.getHead();
     const tail = queue.getTail();
@@ -89,30 +95,34 @@ export const QueuePage: React.FC = () => {
   return (
     <SolutionLayout title="Очередь">
       <div className={style.inputsContainer}>
-        <form className={style.form} onSubmit={handleAdd}>
+        <form className={style.form} onSubmit={handleAdd} test-id="form">
           <Input
             maxLength={4}
             isLimitText
             onChange={handleInputChange}
             value={stringInput}
+            test-id="input"
           />
           <Button
             text={"Добавить"}
             type="submit"
             isLoader={isPushing}
             disabled={isPopping || stringInput.length < 1}
+            test-id="add-button"
           />
           <Button
             text={"Удалить"}
             onClick={handleRemove}
             isLoader={isPopping}
-            disabled={isPushing}
+            disabled={isPushing || isEmpty}
+            test-id="remove-button"
           />
         </form>
         <Button
           text={"Очистить"}
-          disabled={isPopping || isPushing}
+          disabled={isPopping || isPushing || isEmpty}
           onClick={handleClearAll}
+          test-id="clear-button"
         />
       </div>
       <ul className={style.circlesContainer}>
