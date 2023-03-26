@@ -309,13 +309,18 @@ export const ListPage: React.FC = () => {
 
   return (
     <SolutionLayout title="Связный список">
-      <form className={style.inputsContainer} onSubmit={handleAddToHead}>
+      <form
+        className={style.inputsContainer}
+        onSubmit={handleAddToHead}
+        test-id="form"
+      >
         <Input
           placeholder="Введите значение"
           maxLength={MAX_VALUE_LENGTH}
           isLimitText
           onChange={handleValueInputChange}
           value={valueInput}
+          test-id="valueInput"
         />
         <Button
           text="Добавить в head"
@@ -327,6 +332,7 @@ export const ListPage: React.FC = () => {
             buttonStates.isDeletingByIdex
           }
           isLoader={buttonStates.isAddingToHead}
+          test-id="addToHead"
         />
         <Button
           text="Добавить в tail"
@@ -338,6 +344,7 @@ export const ListPage: React.FC = () => {
           }
           onClick={handleAddToTail}
           isLoader={buttonStates.isAddingToTail}
+          test-id="addToTail"
         />
         <Button
           text="Удалить из head"
@@ -349,6 +356,7 @@ export const ListPage: React.FC = () => {
             buttonStates.isDeletingByIdex
           }
           onClick={handleDeleteFromHead}
+          test-id="removeFromHead"
         />
         <Button
           text="Удалить из tail"
@@ -360,6 +368,7 @@ export const ListPage: React.FC = () => {
             buttonStates.isDeletingByIdex
           }
           onClick={handleDeleteFromTail}
+          test-id="removeFromTail"
         />
         <Input
           placeholder="Введите индекс"
@@ -367,6 +376,7 @@ export const ListPage: React.FC = () => {
           type="number"
           onChange={handleIndexInputChange}
           value={indexInput || ""}
+          test-id="indexInput"
         />
         <Button
           text="Добавить по индексу"
@@ -379,6 +389,7 @@ export const ListPage: React.FC = () => {
           }
           onClick={handleAddByIndex}
           isLoader={buttonStates.isAddingByIdex}
+          test-id="addByIndex"
         />
         <Button
           text="Удалить по индексу"
@@ -391,9 +402,10 @@ export const ListPage: React.FC = () => {
           }
           onClick={handleDeleteByIndex}
           isLoader={buttonStates.isDeletingByIdex}
+          test-id="removeByIndex"
         />
       </form>
-      <ul className={style.circlesContainer}>
+      <ul className={style.circlesContainer} test-id="container">
         {elements &&
           elements.map((element, index, arr) => (
             <li key={index} className={style.listItem}>
