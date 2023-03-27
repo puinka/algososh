@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button/button";
 import { RadioInput } from "../ui/radio-input/radio-input";
 import { SolutionLayout } from "../ui/solution-layout/solution-layout";
@@ -22,6 +22,10 @@ export const SortingPage: React.FC = () => {
   const [elements, setElements] = useState<TElement[]>([]);
   const [isLoadingAsc, setIsLoadingAsc] = useState<boolean>(false);
   const [isLoadingDsc, setIsLoadingDsc] = useState<boolean>(false);
+
+  useEffect(() => {
+    generateArray();
+  }, []);
 
   const generateArray = (): void => {
     const length = randomNumber(MIN_LENGTH, MAX_LENGTH);
