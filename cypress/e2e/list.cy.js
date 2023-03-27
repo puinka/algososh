@@ -1,5 +1,18 @@
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
-import { changingState, defaultState, modifiedState } from "./constants";
+import {
+  ADD_BY_INDEX_SELECTOR,
+  ADD_TO_HEAD_SELECTOR,
+  ADD_TO_TAIL_SELECTOR,
+  changingState,
+  CIRCLES_SELECTOR,
+  defaultState,
+  FORM_SELECTOR,
+  INDEX_INPUT_SELECTOR,
+  modifiedState,
+  REMOVE_BY_INDEX_SELECTOR,
+  SMALL_CIRCLE_SELECTOR,
+  VALUE_INPUT_SELECTOR,
+} from "./constants";
 
 describe("List component functions properly", () => {
   beforeEach(() => {
@@ -7,129 +20,125 @@ describe("List component functions properly", () => {
   });
 
   it("buttons should be disabled, if inputs are empty", () => {
-    cy.get("[test-id='form']").within(() => {
-      cy.get("[test-id='valueInput']").should("have.value", "");
-      cy.get("[test-id='indexInput']").should("have.value", "");
-      cy.get("[test-id='addToHead']").should("be.disabled");
-      cy.get("[test-id='addToTail']").should("be.disabled");
-      cy.get("[test-id='addByIndex']").should("be.disabled");
-      cy.get("[test-id='removeByIndex']").should("be.disabled");
+    cy.get(FORM_SELECTOR).within(() => {
+      cy.get(VALUE_INPUT_SELECTOR).should("have.value", "");
+      cy.get(INDEX_INPUT_SELECTOR).should("have.value", "");
+      cy.get(ADD_TO_HEAD_SELECTOR).should("be.disabled");
+      cy.get(ADD_TO_TAIL_SELECTOR).should("be.disabled");
+      cy.get(ADD_BY_INDEX_SELECTOR).should("be.disabled");
+      cy.get(REMOVE_BY_INDEX_SELECTOR).should("be.disabled");
     });
   });
 
   it("default list render correctly", () => {
-    cy.get("[test-id='circle']").should(
-      "have.css",
-      "border-color",
-      defaultState
-    );
-    cy.get("[test-id='circle']").first().prev().contains("head");
-    cy.get("[test-id='circle']").last().next().next().contains("tail");
+    cy.get(CIRCLES_SELECTOR).should("have.css", "border-color", defaultState);
+    cy.get(CIRCLES_SELECTOR).first().prev().contains("head");
+    cy.get(CIRCLES_SELECTOR).last().next().next().contains("tail");
   });
 
   it("adding to head works correctly", () => {
-    cy.get("[test-id='valueInput']").type("abc");
-    cy.get("[test-id='addToHead']").click();
-    cy.get("[class*='circle_small']").contains("abc");
-    cy.get("[class*='circle_small']").should(
+    cy.get(VALUE_INPUT_SELECTOR).type("abc");
+    cy.get(ADD_TO_HEAD_SELECTOR).click();
+    cy.get(SMALL_CIRCLE_SELECTOR).contains("abc");
+    cy.get(SMALL_CIRCLE_SELECTOR).should(
       "have.css",
       "border-color",
       changingState
     );
     cy.wait(SHORT_DELAY_IN_MS);
-    cy.get("[test-id='circle']")
+    cy.get(CIRCLES_SELECTOR)
       .first()
       .should("have.css", "border-color", modifiedState);
     cy.wait(SHORT_DELAY_IN_MS);
-    cy.get("[test-id='circle']")
+    cy.get(CIRCLES_SELECTOR)
       .first()
       .should("have.css", "border-color", defaultState);
   });
 
   it("adding to tail works correctly", () => {
-    cy.get("[test-id='valueInput']").type("xyz");
-    cy.get("[test-id='addToTail']").click();
-    cy.get("[class*='circle_small']").contains("xyz");
-    cy.get("[class*='circle_small']").should(
+    cy.get(VALUE_INPUT_SELECTOR).type("xyz");
+    cy.get(ADD_TO_TAIL_SELECTOR).click();
+    cy.get(SMALL_CIRCLE_SELECTOR).contains("xyz");
+    cy.get(SMALL_CIRCLE_SELECTOR).should(
       "have.css",
       "border-color",
       changingState
     );
     cy.wait(SHORT_DELAY_IN_MS);
-    cy.get("[test-id='circle']")
+    cy.get(CIRCLES_SELECTOR)
       .last()
       .should("have.css", "border-color", modifiedState);
     cy.wait(SHORT_DELAY_IN_MS);
-    cy.get("[test-id='circle']")
+    cy.get(CIRCLES_SELECTOR)
       .last()
       .should("have.css", "border-color", defaultState);
   });
 
   it("adding by index works correctly", () => {
-    cy.get("[test-id='valueInput']").type("qwe");
-    cy.get("[test-id='indexInput']").type("1");
-    cy.get("[test-id='addByIndex']").click();
-    cy.get("[class*='circle_small']").contains("qwe");
-    cy.get("[class*='circle_small']").should(
+    cy.get(VALUE_INPUT_SELECTOR).type("qwe");
+    cy.get(INDEX_INPUT_SELECTOR).type("1");
+    cy.get(ADD_BY_INDEX_SELECTOR).click();
+    cy.get(SMALL_CIRCLE_SELECTOR).contains("qwe");
+    cy.get(SMALL_CIRCLE_SELECTOR).should(
       "have.css",
       "border-color",
       changingState
     );
     cy.wait(SHORT_DELAY_IN_MS);
     cy.wait(SHORT_DELAY_IN_MS);
-    cy.get("[test-id='circle']").eq(1).contains("qwe");
-    cy.get("[test-id='circle']")
+    cy.get(CIRCLES_SELECTOR).eq(1).contains("qwe");
+    cy.get(CIRCLES_SELECTOR)
       .eq(1)
       .should("have.css", "border-color", modifiedState);
     cy.wait(SHORT_DELAY_IN_MS);
-    cy.get("[test-id='circle']")
+    cy.get(CIRCLES_SELECTOR)
       .eq(1)
       .should("have.css", "border-color", defaultState);
   });
 
   it("removing from the head works correctly", () => {
     cy.get("[test-id='removeFromHead']").click();
-    cy.get("[test-id='circle']").first().should("not.have.text");
-    cy.get("[class*='circle_small']").should(
+    cy.get(CIRCLES_SELECTOR).first().should("not.have.text");
+    cy.get(SMALL_CIRCLE_SELECTOR).should(
       "have.css",
       "border-color",
       changingState
     );
     cy.wait(SHORT_DELAY_IN_MS);
-    cy.get("[test-id='circle']").first().should("not.be.empty");
+    cy.get(CIRCLES_SELECTOR).first().should("not.be.empty");
   });
 
   it("removing from the tail works correctly", () => {
     cy.get("[test-id='removeFromTail']").click();
-    cy.get("[test-id='circle']").last().should("not.have.text");
-    cy.get("[class*='circle_small']").should(
+    cy.get(CIRCLES_SELECTOR).last().should("not.have.text");
+    cy.get(SMALL_CIRCLE_SELECTOR).should(
       "have.css",
       "border-color",
       changingState
     );
     cy.wait(SHORT_DELAY_IN_MS);
-    cy.get("[test-id='circle']").last().should("not.be.empty");
+    cy.get(CIRCLES_SELECTOR).last().should("not.be.empty");
   });
 
   it("removing by index works correctly", () => {
-    cy.get("[test-id='indexInput']").type("1");
-    cy.get("[test-id='removeByIndex']").click();
-    cy.get("[test-id='circle']")
+    cy.get(INDEX_INPUT_SELECTOR).type("1");
+    cy.get(REMOVE_BY_INDEX_SELECTOR).click();
+    cy.get(CIRCLES_SELECTOR)
       .eq(0)
       .should("have.css", "border-color", changingState);
     cy.wait(SHORT_DELAY_IN_MS);
-    cy.get("[test-id='circle']")
+    cy.get(CIRCLES_SELECTOR)
       .eq(1)
       .should("have.css", "border-color", changingState);
     cy.wait(SHORT_DELAY_IN_MS);
-    cy.get("[test-id='circle']").eq(1).should("not.have.text");
-    cy.get("[class*='circle_small']").should(
+    cy.get(CIRCLES_SELECTOR).eq(1).should("not.have.text");
+    cy.get(SMALL_CIRCLE_SELECTOR).should(
       "have.css",
       "border-color",
       changingState
     );
     cy.wait(SHORT_DELAY_IN_MS);
-    cy.get("[test-id='circle']").each(($circle) => {
+    cy.get(CIRCLES_SELECTOR).each(($circle) => {
       cy.get($circle).should("have.css", "border-color", defaultState);
     });
   });

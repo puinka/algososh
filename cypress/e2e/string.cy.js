@@ -1,4 +1,12 @@
-import { changingState, defaultState, modifiedState } from "./constants";
+import {
+  changingState,
+  CIRCLES_SELECTOR,
+  defaultState,
+  FORM_SELECTOR,
+  INPUT_SELECTOR,
+  modifiedState,
+  SUBMIT_SELECTOR,
+} from "./constants";
 import { DELAY_IN_MS } from "../../src/constants/delays";
 
 const testData = [
@@ -30,21 +38,21 @@ describe("String component functions properly", () => {
   });
 
   it("the button should be disabled, if the input is empty", () => {
-    cy.get("[test-id='form']").within(() => {
-      cy.get("[test-id='input']").should("have.value", "");
-      cy.get("[test-id='submit']").should("be.disabled");
+    cy.get(FORM_SELECTOR).within(() => {
+      cy.get(INPUT_SELECTOR).should("have.value", "");
+      cy.get(SUBMIT_SELECTOR).should("be.disabled");
     });
   });
 
   it("string reverse aimation works correctly", () => {
-    cy.get("[test-id='form']").within(() => {
-      cy.get("[test-id='input']").type("1234");
-      cy.get("[test-id='submit']").as("button");
+    cy.get(FORM_SELECTOR).within(() => {
+      cy.get(INPUT_SELECTOR).type("1234");
+      cy.get(SUBMIT_SELECTOR).as("button");
       cy.get("@button").click();
       cy.get("@button").should("be.disabled");
     });
 
-    cy.get("[test-id='circle']").each(($circle, index) => {
+    cy.get(CIRCLES_SELECTOR).each(($circle, index) => {
       cy.get($circle).contains(testData[0].testString[index]);
       cy.get($circle).should(
         "have.css",
@@ -55,7 +63,7 @@ describe("String component functions properly", () => {
 
     cy.wait(DELAY_IN_MS);
 
-    cy.get("[test-id='circle']").each(($circle, index) => {
+    cy.get(CIRCLES_SELECTOR).each(($circle, index) => {
       cy.get($circle).contains(testData[1].testString[index]);
       cy.get($circle).should(
         "have.css",
@@ -66,7 +74,7 @@ describe("String component functions properly", () => {
 
     cy.wait(DELAY_IN_MS);
 
-    cy.get("[test-id='circle']").each(($circle, index) => {
+    cy.get(CIRCLES_SELECTOR).each(($circle, index) => {
       cy.get($circle).contains(testData[2].testString[index]);
       cy.get($circle).should(
         "have.css",
@@ -77,7 +85,7 @@ describe("String component functions properly", () => {
 
     cy.wait(DELAY_IN_MS);
 
-    cy.get("[test-id='circle']").each(($circle, index) => {
+    cy.get(CIRCLES_SELECTOR).each(($circle, index) => {
       cy.get($circle).contains(testData[3].testString[index]);
       cy.get($circle).should(
         "have.css",
@@ -88,7 +96,7 @@ describe("String component functions properly", () => {
 
     cy.wait(DELAY_IN_MS);
 
-    cy.get("[test-id='circle']").each(($circle, index) => {
+    cy.get(CIRCLES_SELECTOR).each(($circle, index) => {
       cy.get($circle).contains(testData[4].testString[index]);
       cy.get($circle).should(
         "have.css",
@@ -99,7 +107,7 @@ describe("String component functions properly", () => {
   });
 
   afterEach(() => {
-    cy.get("[test-id='input']").should("be.empty");
-    cy.get("[test-id='submit']").should("be.disabled");
+    cy.get(INPUT_SELECTOR).should("be.empty");
+    cy.get(SUBMIT_SELECTOR).should("be.disabled");
   });
 });

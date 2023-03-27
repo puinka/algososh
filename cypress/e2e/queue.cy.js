@@ -1,12 +1,20 @@
-import { changingState } from "./constants";
+import {
+  ADD_BUTTON_SELECTOR,
+  changingState,
+  CIRCLES_SELECTOR,
+  CLEAR_BUTTON_SELECTOR,
+  FORM_SELECTOR,
+  INPUT_SELECTOR,
+  REMOVE_BUTTON_SELECTOR,
+} from "./constants";
 
 const testData = ["1", "2", "3"];
 
 describe("Queue component functions properly", () => {
   const prepareQueue = () => {
     testData.forEach((item) => {
-      cy.get("[test-id='input']").type(item);
-      cy.get("[test-id='add-button']").click();
+      cy.get(INPUT_SELECTOR).type(item);
+      cy.get(ADD_BUTTON_SELECTOR).click();
     });
   };
 
@@ -15,65 +23,65 @@ describe("Queue component functions properly", () => {
   });
 
   it("buttons should be disabled, if the input is empty", () => {
-    cy.get("[test-id='form']").within(() => {
-      cy.get("[test-id='input']").should("have.value", "");
-      cy.get("[test-id='add-button']").should("be.disabled");
+    cy.get(FORM_SELECTOR).within(() => {
+      cy.get(INPUT_SELECTOR).should("have.value", "");
+      cy.get(ADD_BUTTON_SELECTOR).should("be.disabled");
     });
   });
 
   it("adding an element to Queue works correctly", () => {
-    cy.get("[test-id='input']").should("have.value", "");
+    cy.get(INPUT_SELECTOR).should("have.value", "");
 
     //step 0
-    cy.get("[test-id='input']").type(testData[0]);
-    cy.get("[test-id='add-button']").click();
-    cy.get("[test-id='circle']").eq(0).contains(testData[0]);
-    cy.get("[test-id='circle']")
+    cy.get(INPUT_SELECTOR).type(testData[0]);
+    cy.get(ADD_BUTTON_SELECTOR).click();
+    cy.get(CIRCLES_SELECTOR).eq(0).contains(testData[0]);
+    cy.get(CIRCLES_SELECTOR)
       .eq(0)
       .should("have.css", "border-color", changingState);
-    cy.get("[test-id='circle']").eq(0).prev().contains("head");
-    cy.get("[test-id='circle']").eq(0).next().next().contains("tail");
+    cy.get(CIRCLES_SELECTOR).eq(0).prev().contains("head");
+    cy.get(CIRCLES_SELECTOR).eq(0).next().next().contains("tail");
 
     //step 1
-    cy.get("[test-id='input']").type(testData[1]);
-    cy.get("[test-id='add-button']").click();
-    cy.get("[test-id='circle']").eq(1).contains(testData[1]);
-    cy.get("[test-id='circle']")
+    cy.get(INPUT_SELECTOR).type(testData[1]);
+    cy.get(ADD_BUTTON_SELECTOR).click();
+    cy.get(CIRCLES_SELECTOR).eq(1).contains(testData[1]);
+    cy.get(CIRCLES_SELECTOR)
       .eq(1)
       .should("have.css", "border-color", changingState);
-    cy.get("[test-id='circle']").eq(0).prev().contains("head");
-    cy.get("[test-id='circle']").eq(1).next().next().contains("tail");
+    cy.get(CIRCLES_SELECTOR).eq(0).prev().contains("head");
+    cy.get(CIRCLES_SELECTOR).eq(1).next().next().contains("tail");
 
     //step 2
-    cy.get("[test-id='input']").type(testData[2]);
-    cy.get("[test-id='add-button']").click();
-    cy.get("[test-id='circle']").eq(2).contains(testData[2]);
-    cy.get("[test-id='circle']")
+    cy.get(INPUT_SELECTOR).type(testData[2]);
+    cy.get(ADD_BUTTON_SELECTOR).click();
+    cy.get(CIRCLES_SELECTOR).eq(2).contains(testData[2]);
+    cy.get(CIRCLES_SELECTOR)
       .eq(2)
       .should("have.css", "border-color", changingState);
-    cy.get("[test-id='circle']").eq(0).prev().contains("head");
-    cy.get("[test-id='circle']").eq(2).next().next().contains("tail");
+    cy.get(CIRCLES_SELECTOR).eq(0).prev().contains("head");
+    cy.get(CIRCLES_SELECTOR).eq(2).next().next().contains("tail");
   });
 
   it("removing an element from the Queue works correctly", () => {
     prepareQueue();
 
-    cy.get("[test-id='remove-button']").click();
-    cy.get("[test-id='circle']").eq(1).contains(testData[1]);
-    cy.get("[test-id='circle']").eq(1).prev().contains("head");
-    cy.get("[test-id='circle']").eq(2).contains(testData[2]);
-    cy.get("[test-id='circle']").eq(2).next().next().contains("tail");
+    cy.get(REMOVE_BUTTON_SELECTOR).click();
+    cy.get(CIRCLES_SELECTOR).eq(1).contains(testData[1]);
+    cy.get(CIRCLES_SELECTOR).eq(1).prev().contains("head");
+    cy.get(CIRCLES_SELECTOR).eq(2).contains(testData[2]);
+    cy.get(CIRCLES_SELECTOR).eq(2).next().next().contains("tail");
 
-    cy.get("[test-id='remove-button']").click();
-    cy.get("[test-id='circle']").eq(2).contains(testData[2]);
-    cy.get("[test-id='circle']").eq(2).prev().contains("head");
-    cy.get("[test-id='circle']").eq(2).next().next().contains("tail");
+    cy.get(REMOVE_BUTTON_SELECTOR).click();
+    cy.get(CIRCLES_SELECTOR).eq(2).contains(testData[2]);
+    cy.get(CIRCLES_SELECTOR).eq(2).prev().contains("head");
+    cy.get(CIRCLES_SELECTOR).eq(2).next().next().contains("tail");
   });
 
   it("clearing the Queue works correctly", () => {
     prepareQueue();
-    cy.get("[test-id='clear-button']").click();
-    cy.get("[test-id='circle']").each(($circle) => {
+    cy.get(CLEAR_BUTTON_SELECTOR).click();
+    cy.get(CIRCLES_SELECTOR).each(($circle) => {
       cy.get($circle).should("not.have.text");
     });
   });

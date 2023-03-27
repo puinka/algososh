@@ -1,4 +1,10 @@
 import { SHORT_DELAY_IN_MS } from "../../src/constants/delays";
+import {
+  CIRCLES_SELECTOR,
+  FORM_SELECTOR,
+  INPUT_SELECTOR,
+  SUBMIT_SELECTOR,
+} from "./constants";
 
 const testData = ["1", "1", "2", "3", "5", "8"];
 
@@ -8,21 +14,21 @@ describe("Fibonacci component functions properly", () => {
   });
 
   it("the button should be disabled, if the input is empty", () => {
-    cy.get("[test-id='form']").within(() => {
-      cy.get("[test-id='input']").should("have.value", "");
-      cy.get("[test-id='submit']").should("be.disabled");
+    cy.get(FORM_SELECTOR).within(() => {
+      cy.get(INPUT_SELECTOR).should("have.value", "");
+      cy.get(SUBMIT_SELECTOR).should("be.disabled");
     });
   });
 
   it("fibonacci aimation works correctly", () => {
-    cy.get("[test-id='form']").within(() => {
-      cy.get("[test-id='input']").type("5");
-      cy.get("[test-id='submit']").as("button");
+    cy.get(FORM_SELECTOR).within(() => {
+      cy.get(INPUT_SELECTOR).type("5");
+      cy.get(SUBMIT_SELECTOR).as("button");
       cy.get("@button").click();
       cy.get("@button").should("be.disabled");
     });
 
-    cy.get("[test-id='circle']").as("circles");
+    cy.get(CIRCLES_SELECTOR).as("circles");
 
     cy.get("@circles").should("have.length", "1");
     cy.wait(SHORT_DELAY_IN_MS);
@@ -42,7 +48,7 @@ describe("Fibonacci component functions properly", () => {
   });
 
   afterEach(() => {
-    cy.get("[test-id='input']").should("be.empty");
-    cy.get("[test-id='submit']").should("be.disabled");
+    cy.get(INPUT_SELECTOR).should("be.empty");
+    cy.get(SUBMIT_SELECTOR).should("be.disabled");
   });
 });
