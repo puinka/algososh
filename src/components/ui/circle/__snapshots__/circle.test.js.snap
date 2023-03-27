@@ -9,6 +9,7 @@ exports[`should render Circle component as changing state 1`] = `
   />
   <div
     className="circle   changing"
+    test-id="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -32,6 +33,7 @@ exports[`should render Circle component as default state 1`] = `
   />
   <div
     className="circle   default"
+    test-id="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -55,6 +57,7 @@ exports[`should render Circle component as modified state 1`] = `
   />
   <div
     className="circle   modified"
+    test-id="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -78,6 +81,7 @@ exports[`should render Circle component as small 1`] = `
   />
   <div
     className="circle  small default"
+    test-id="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -101,6 +105,7 @@ exports[`should render Circle component with a letter 1`] = `
   />
   <div
     className="circle   default"
+    test-id="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -132,6 +137,7 @@ exports[`should render Circle component with an element in head 1`] = `
       />
       <div
         className="circle  small default"
+        test-id="circle"
       >
         <p
           className="text text_type_circle text_color_input letter"
@@ -147,6 +153,7 @@ exports[`should render Circle component with an element in head 1`] = `
   </div>
   <div
     className="circle   default"
+    test-id="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -170,6 +177,7 @@ exports[`should render Circle component with an element in tail 1`] = `
   />
   <div
     className="circle   default"
+    test-id="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -189,6 +197,7 @@ exports[`should render Circle component with an element in tail 1`] = `
       />
       <div
         className="circle  small default"
+        test-id="circle"
       >
         <p
           className="text text_type_circle text_color_input letter"
@@ -214,6 +223,7 @@ exports[`should render Circle component with an index 1`] = `
   />
   <div
     className="circle   default"
+    test-id="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -241,6 +251,7 @@ exports[`should render Circle component with head 1`] = `
   </div>
   <div
     className="circle   default"
+    test-id="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -264,6 +275,7 @@ exports[`should render Circle component with tail 1`] = `
   />
   <div
     className="circle   default"
+    test-id="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
@@ -289,6 +301,7 @@ exports[`should render Circle component without letters 1`] = `
   />
   <div
     className="circle   default"
+    test-id="circle"
   >
     <p
       className="text text_type_circle text_color_input letter"
