@@ -1,5 +1,6 @@
 describe("App launched", () => {
-  it("App is launching at http://localhost:3000", () => {
-    cy.visit("http://localhost:3000");
+  it("App is launching at the base URL", () => {
+    cy.visit("/");
+    cy.contains("МБОУ АЛГОСОШ");
   });
 });
