@@ -398,7 +398,8 @@ export const ListPage: React.FC = () => {
             !indexInput ||
             elements.length === 0 ||
             indexInput > elements.length - 1 ||
-            buttonStates.isAddingByIdex
+            buttonStates.isAddingByIdex ||
+            indexInput < 0
           }
           onClick={handleDeleteByIndex}
           isLoader={buttonStates.isDeletingByIdex}
