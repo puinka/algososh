@@ -52,11 +52,6 @@ export const ListPage: React.FC = () => {
     );
   }, []);
 
-  // const renderStep = async () => {
-  //   setElements([...elements]);
-  //   await delay(SHORT_DELAY_IN_MS);
-  // };
-
   const handleValueInputChange = (
     evt: React.FormEvent<HTMLInputElement>
   ): void => {
@@ -177,6 +172,7 @@ export const ListPage: React.FC = () => {
       ...buttonStates,
       isDeletingFromTail: true,
     });
+
     const i = elements.length - 1;
     elements[i] = {
       ...elements[i],
@@ -353,8 +349,10 @@ export const ListPage: React.FC = () => {
             buttonStates.isAddingToHead ||
             buttonStates.isAddingToTail ||
             buttonStates.isAddingByIdex ||
-            buttonStates.isDeletingByIdex
+            buttonStates.isDeletingByIdex ||
+            buttonStates.isDeletingFromTail
           }
+          isLoader={buttonStates.isDeletingFromHead}
           onClick={handleDeleteFromHead}
           test-id="removeFromHead"
         />
@@ -365,8 +363,10 @@ export const ListPage: React.FC = () => {
             buttonStates.isAddingToHead ||
             buttonStates.isAddingToTail ||
             buttonStates.isAddingByIdex ||
-            buttonStates.isDeletingByIdex
+            buttonStates.isDeletingByIdex ||
+            buttonStates.isDeletingFromHead
           }
+          isLoader={buttonStates.isDeletingFromTail}
           onClick={handleDeleteFromTail}
           test-id="removeFromTail"
         />
