@@ -4,10 +4,11 @@ import { Input } from "../ui/input/input";
 import { Button } from "../ui/button/button";
 import { Circle } from "../ui/circle/circle";
 import style from "./string.module.css";
-import { delay, renderStep } from "../../common/utils";
+import { delay, renderStep, swap } from "../../common/utils";
 import { TLetter } from "../../types/types";
 import { ElementStates } from "../../types/element-states";
 import { DELAY_IN_MS, SHORT_DELAY_IN_MS } from "../../constants/delays";
+import { convertStringToLetters } from "./utils";
 
 export const StringComponent: React.FC = () => {
   const MAX_LENGTH = 11;
@@ -27,34 +28,12 @@ export const StringComponent: React.FC = () => {
     setStringInput("");
     setIsLoader(true);
 
-    await renderSorting(stringInput);
+    await renderReversedString(stringInput);
     await delay(SHORT_DELAY_IN_MS);
     setIsLoader(false);
   };
 
-  const convertStringToLetters = (str: string): TLetter[] => {
-    const arr: TLetter[] = [];
-    str
-      .split("")
-      .forEach((item) =>
-        arr.push({ char: item, state: ElementStates.Default })
-      );
-    return arr;
-  };
-
-  const swap = (arr: TLetter[], index: number): void => {
-    [arr[index], arr[arr.length - index - 1]] = [
-      arr[arr.length - index - 1],
-      arr[index],
-    ];
-  };
-
-  // const renderStep = async (arr: TLetter[]): Promise<void> => {
-  //   setLetters([...arr]);
-  //   await delay(DELAY_IN_MS);
-  // };
-
-  const renderSorting = async (str: string) => {
+  const renderReversedString = async (str: string) => {
     const arr = convertStringToLetters(str);
     await renderStep(arr, DELAY_IN_MS, setLetters);
 
@@ -65,7 +44,7 @@ export const StringComponent: React.FC = () => {
 
       await renderStep(arr, DELAY_IN_MS, setLetters);
 
-      swap(arr, i);
+      swap(arr, i, arr.length - i - 1);
 
       arr[i].state = ElementStates.Modified;
       arr[arr.length - i - 1].state = ElementStates.Modified;
@@ -80,18 +59,24 @@ export const StringComponent: React.FC = () => {
 
   return (
     <SolutionLayout title="Строка">
-      <form className={style.inputsContainer} onSubmit={handleReverseClick}>
+      <form
+        className={style.inputsContainer}
+        onSubmit={handleReverseClick}
+        test-id="form"
+      >
         <Input
           maxLength={MAX_LENGTH}
           isLimitText
           value={stringInput}
           onChange={handleInputChange}
+          test-id="input"
         />
         <Button
           text="Развернуть"
           type="submit"
           disabled={!stringInput}
           isLoader={isLoader}
+          test-id="submit"
         />
       </form>
       <ul className={style.circlesContainer}>
